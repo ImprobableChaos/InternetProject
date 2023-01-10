@@ -1,0 +1,89 @@
+{% extends "layouts/main.html" %}
+
+{% block content%}
+
+<body>
+
+<div class="main" id="newpost">
+  <img style="width: 100%; height:80%; background-attachment: fixed;" id="bg" class="center" src="{{ url_for('video_feed') }}" alt="">
+
+</div>
+
+  <div class="top-right-logo">
+  	<a></a>Raspberry Pi - Camera Stream
+  </div>
+
+
+<div class="navbar">
+
+    <div class="ignoreCall">
+          <a id=decline class="but_def">
+              <button id="button">
+                  <i style="background: red; color: white;" class="fa fa-times fa-2x" aria-hidden="true"></i>
+              </button>
+         </a>
+    </div>
+
+    <div class="picture">
+          <a href=# id=take-picture class="picture_class">
+              <button id="take-picture-button" onclick="take_picture()">
+                  <i style="background: blue; color: white;" class="fa fa-camera fa-2x" aria-hidden="true"></i>
+              </button>
+         </a>
+    </div>
+
+</div>
+
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+// stop stream - called when pressing red X
+var button = document.getElementById('button');
+
+button.onclick = function() {
+    var div = document.getElementById('newpost');
+    if (div.style.display !== 'none') {
+        div.style.display = 'none';
+    }
+    else {
+        div.style.display = 'block';
+    }
+};
+
+// Take and save a photo, call picture function in main.py
+$(function() {
+  $('a#take-picture').on('click', function(e) {
+    e.preventDefault()
+    $.getJSON('/picture',
+        function(data) {
+      //do nothing
+    });
+    return false;
+  });
+});
+
+</script>
+
+<script type="text/javascript">
+// take picture
+var button = document.getElementById('take-pica-button');
+
+button.onclick = function() {
+    var div = document.getElementById('newpost');
+    if (div.style.display !== 'none') {
+        div.style.display = 'none';
+    }
+    else {
+        div.style.display = 'block';
+    }
+};
+
+</script>
+
+</body>
+
+
+{% endblock %}
