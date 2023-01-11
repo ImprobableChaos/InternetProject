@@ -18,20 +18,27 @@
 
     <div class="ignoreCall">
           <a id=decline class="but_def">
-              <button id="button" value="Show/Hide Video Stream">
-                  <i style="background: red; color: white;" class="fa fa-times fa-2x" aria-hidden="true"></i>
-              </button>
+              <button id="button" value="Show/Hide Video Stream" class="btn btn-default"></button>
          </a>
     </div>
 
     <div class="picture">
           <a href=# id=take-picture class="picture_class">
-              <button id="take-picture-button" onclick="take_picture()" value="Take Picture">
-                  <i style="background: blue; color: white;" class="fa fa-camera fa-2x" aria-hidden="true"></i>
-              </button>
+              <button id="take-picture-button" onclick="take_picture()" value="Take Picture" class="btn btn-default"></button>
          </a>
     </div>
 
+    <div>
+          <a href=# id=lock-door>
+              <button id="lock-door-button" onclick="lock_door()" value="Lock Door" class="btn btn-default"></button>
+         </a>
+    </div>
+
+    <div>
+          <a href=# id=unlock-door>
+              <button id="unlock-door-button" onclick="unlock_door()" value="Unlock Door" class="btn btn-default"></button>
+         </a>
+    </div>
 </div>
 
 
