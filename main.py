@@ -65,6 +65,7 @@ def setup():
 
 
 def servoWrite(angle):
+    setup()
     if angle < 0:
         angle = 0
     elif angle > 180:
@@ -133,6 +134,5 @@ if __name__ == "__main__":
     try:
         app.directory = "./"
         app.run(host="0.0.0.0", port=5000)
-        setup()
     except KeyboardInterrupt:
         destroy()
