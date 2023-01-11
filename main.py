@@ -8,7 +8,7 @@ from datetime import datetime
 
 
 class VideoCamera(object):
-    def __init__(self, file_type = ".jpg", photo_string="stream_photo"):
+    def __init__(self, file_type=".jpg", photo_string="stream_photo"):
         self.vs = PiVideoStream().start()
         self.file_type = file_type
         self.photo_string = photo_string
@@ -17,7 +17,7 @@ class VideoCamera(object):
     def __del__(self):
         self.vs.stop()
 
-    def frame(self,frame):
+    def frame(self, frame):
         return frame
 
     def get_frame(self):
@@ -30,7 +30,7 @@ class VideoCamera(object):
     def take_picture(self):
         frame = self.frame(self.vs.read())
         ret, image = cv.imencode(self.file_type, frame)
-        today_date = datetime.now().strftime("%m%d%Y-%H%M%S") # get current time
+        today_date = datetime.now().strftime("%m%d%Y-%H%M%S")  # get current time
         cv.imwrite(str(self.photo_string + "_" + today_date + self.file_type), frame)
 
 
@@ -76,5 +76,3 @@ def login():
 if __name__ == "__main__":
     app.directory = "./"
     app.run(host="0.0.0.0", port=5000)
-
-
