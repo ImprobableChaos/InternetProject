@@ -5,6 +5,10 @@ from imutils.video.pivideostream import PiVideoStream
 import imutils
 import time
 from datetime import datetime
+import RPi.GPIO as GPIO
+from mfrc522 import SimpleMFRC522
+
+reader = SimpleMFRC522()
 
 
 class VideoCamera(object):
@@ -76,3 +80,12 @@ def login():
 if __name__ == "__main__":
     app.directory = "./"
     app.run(host="0.0.0.0", port=5000)
+
+    try:
+
+        id, text = reader.read()
+        print(id)
+        print(text)
+
+    finally:
+        GPIO.cleanup()
