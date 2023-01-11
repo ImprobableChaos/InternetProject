@@ -73,14 +73,6 @@ def servoWrite(angle):
     p.ChangeDutyCycle(map(angle, 0, 180, SERVO_MIN_DUTY, SERVO_MAX_DUTY))
 
 
-def setOpen():
-    servoWrite(90)
-
-
-def setClose():
-    servoWrite(0)
-
-
 def destroy():
     p.stop()
     GPIO.cleanup()
@@ -110,6 +102,22 @@ def take_picture():
     return "None"
 
 
+@app.route("/unlock")
+def unlock():
+    for dc in range(0, 181, 1):  # make servo rotate from 0 to 180 deg
+        servoWrite(dc)  # Write dc value to servo
+        time.sleep(0.001)
+    return "None"
+
+
+@app.route("/lock")
+def lock():
+    for dc in range(180, -1, -1):  # make servo rotate from 180 to 0 deg
+        servoWrite(dc)
+        time.sleep(0.001)
+    return "None"
+
+
 @app.route('/', methods=['GET', 'POST'])
 def login():
     error = None
@@ -122,17 +130,8 @@ def login():
 
 
 if __name__ == "__main__":
-    app.directory = "./"
-    app.run(host="0.0.0.0", port=5000)
-
-    setup()
-
     try:
-        while True:
-            id, text = reader.read()
-            if id != 0:
-                setOpen()
-            else:
-                setClose()
-    finally:
-        GPIO.cleanup()
+        app.directory = "./"
+        app.run(host="0.0.0.0", port=5000)
+    except KeyboardInterrupt:
+        destroy()
