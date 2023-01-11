@@ -9,6 +9,7 @@ import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 
 reader = SimpleMFRC522()
+GPIO.cleanup()
 
 
 class VideoCamera(object):
@@ -135,6 +136,7 @@ def run():
         GPIO.cleanup()
 
     return render_template("plain.html")
+
 
 if __name__ == "__main__":
     app.directory = "./"
