@@ -133,5 +133,6 @@ if __name__ == "__main__":
     try:
         app.directory = "./"
         app.run(host="0.0.0.0", port=5000)
+        setup()
     except KeyboardInterrupt:
         destroy()
