@@ -10,6 +10,7 @@ from mfrc522 import SimpleMFRC522
 
 reader = SimpleMFRC522()
 
+
 class VideoCamera(object):
     def __init__(self, file_type=".jpg", photo_string="stream_photo"):
         self.vs = PiVideoStream().start()
@@ -40,12 +41,16 @@ class VideoCamera(object):
 app = Flask(__name__)
 pi_camera = VideoCamera()
 
-#Servo Motor Setup
+# Servo Motor Setup
 
 OFFSE_DUTY = 0.5
-SERVO_MIN_DUTY = 2.5+OFFSE_DUTY
-SERVO_MAX_DUTY = 12.5+OFFSE_DUTY
+SERVO_MIN_DUTY = 2.5 + OFFSE_DUTY
+SERVO_MAX_DUTY = 12.5 + OFFSE_DUTY
 servoPin = 12
+
+
+def map(value, fromLow, fromHigh, toLow, toHigh):
+    return (toHigh - toLow) * (value - fromLow) / (fromHigh - fromLow) + toLow
 
 
 def setup():
@@ -64,7 +69,7 @@ def servoWrite(angle):
     elif angle > 180:
         angle = 180
 
-    p.ChangeDutyCycle(map(angle,0,180,SERVO_MIN_DUTY,SERVO_MAX_DUTY))
+    p.ChangeDutyCycle(map(angle, 0, 180, SERVO_MIN_DUTY, SERVO_MAX_DUTY))
 
 
 def setOpen():
@@ -114,10 +119,10 @@ def login():
             return redirect(url_for('live'))
     return render_template('login.html', error=error)
 
+
 @app.route("/")
 def run():
     setup()
-
 
     try:
         while True:
@@ -128,7 +133,6 @@ def run():
                 setClose()
     finally:
         GPIO.cleanup()
-
 
 
 if __name__ == "__main__":
