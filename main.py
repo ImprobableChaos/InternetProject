@@ -134,6 +134,7 @@ def run():
     finally:
         GPIO.cleanup()
 
+    return render_template("plain.html")
 
 if __name__ == "__main__":
     app.directory = "./"
