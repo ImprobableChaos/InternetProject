@@ -17,6 +17,10 @@
           <input class="button-primary" type="submit" value="Login">
       </form>
 
+    {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}
+      {% endif %}
+
   </body>
 
 
