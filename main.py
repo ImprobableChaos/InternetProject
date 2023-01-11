@@ -64,7 +64,7 @@ def servoWrite(angle):
     elif angle > 180:
         angle = 180
 
-   p.ChangeDutyCycle(map(angle,0,180,SERVO_MIN_DUTY,SERVO_MAX_DUTY))
+    p.ChangeDutyCycle(map(angle,0,180,SERVO_MIN_DUTY,SERVO_MAX_DUTY))
 
 
 def setOpen():
