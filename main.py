@@ -110,7 +110,7 @@ def take_picture():
     return "None"
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def login():
     error = None
     if request.method == 'POST':
@@ -121,8 +121,10 @@ def login():
     return render_template('login.html', error=error)
 
 
-@app.route("/")
-def run():
+if __name__ == "__main__":
+    app.directory = "./"
+    app.run(host="0.0.0.0", port=5000)
+
     setup()
 
     try:
@@ -134,10 +136,3 @@ def run():
                 setClose()
     finally:
         GPIO.cleanup()
-
-    return render_template("plain.html")
-
-
-if __name__ == "__main__":
-    app.directory = "./"
-    app.run(host="0.0.0.0", port=5000)
