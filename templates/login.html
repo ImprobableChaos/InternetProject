@@ -3,26 +3,21 @@
 {% block content%}
 
 <body>
-
+    <div class="container">
+      <h1>Please login</h1>
+      <br>
       <form action="" method="post">
-          <div class="row">
-            <h1>Please login</h1>
-            <div class="six columns">
-              <label for="{{ request.form.username }}">Your Username</label>
-              <input class="u-full-width" type="text" placeholder="Username" id="{{ request.form.username }}">
-            </div>
-              <label for="{{request.form.password }}">Your Password</label>
-              <input class="u-full-width" type="password" placeholder="Password" id="{{request.form.password }}">
-            </div>
-          <input class="button-primary" type="submit" value="Login">
+        <input type="text" placeholder="Username" name="username" value="{{
+          request.form.username }}">
+         <input type="password" placeholder="Password" name="password" value="{{
+          request.form.password }}">
+        <input class="btn btn-default" type="submit" value="Login">
       </form>
-
-    {% if error %}
+      {% if error %}
         <p class="error"><strong>Error:</strong> {{ error }}
       {% endif %}
-
+    </div>
   </body>
-
 
 
 {% endblock %}
