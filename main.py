@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response, request, send_from_directory
+from flask import Flask, render_template, Response, request, redirect, url_for
 import os
 import cv2 as cv
 from imutils.video.pivideostream import PiVideoStream
@@ -38,7 +38,7 @@ app = Flask(__name__)
 pi_camera = VideoCamera()
 
 
-@app.route("/")
+@app.route("/live")
 def index():
     return render_template("home.html")
 
@@ -60,6 +60,17 @@ def video_feed():
 def take_picture():
     pi_camera.take_picture()
     return "None"
+
+
+@app.route('/', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        if request.form['username'] != 'admin' or request.form['password'] != 'admin':
+            error = 'Invalid Credentials. Please try again.'
+        else:
+            return redirect(url_for('live'))
+    return render_template('login.html', error=error)
 
 
 if __name__ == "__main__":
