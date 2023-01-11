@@ -39,7 +39,7 @@ pi_camera = VideoCamera()
 
 
 @app.route("/live")
-def index():
+def live():
     return render_template("home.html")
 
 
