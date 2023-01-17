@@ -133,9 +133,7 @@ if __name__ == "__main__":
     setup_servo()
     try:
         q = Process(target=RFID)
-
         q.start()
-        q.join()
         app.directory = "./"
         app.run(host="0.0.0.0", port=5000, threaded=True)
     except KeyboardInterrupt:
