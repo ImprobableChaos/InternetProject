@@ -92,17 +92,15 @@ def live():
 def generate(camera):
     while True:
         frame = camera.get_frame()
+        print("Grab Image")
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
 
 @app.route("/video_feed")
 def video_feed():
-    if logged_in:
-        return Response(generate(pi_camera),
-                        mimetype="multipart/x-mixed-replace; boundary=frame")
-    else:
-        return redirect(url_for("login"))
+    return Response(generate(pi_camera),
+                    mimetype="multipart/x-mixed-replace; boundary=frame")
 
 
 @app.route("/picture")
