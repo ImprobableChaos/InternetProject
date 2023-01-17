@@ -171,6 +171,4 @@ if __name__ == "__main__":
     q.start()
     p.start()
 
-    q.join()
-    p.join()
 
