@@ -104,17 +104,21 @@ def take_picture():
 
 @app.route("/unlock_door")
 def unlock_door():
+    setup()
     for dc in range(0, 181, 1):  # make servo rotate from 0 to 180 deg
         servoWrite(dc)  # Write dc value to servo
         time.sleep(0.001)
+    destroy()
     return "None"
 
 
 @app.route("/lock_door")
 def lock_door():
+    setup()
     for dc in range(180, -1, -1):  # make servo rotate from 180 to 0 deg
         servoWrite(dc)
         time.sleep(0.001)
+    destroy()
     return "None"
 
 
@@ -130,9 +134,6 @@ def login():
 
 
 if __name__ == "__main__":
-    try:
-        setup()
-        app.directory = "./"
-        app.run(host="0.0.0.0", port=5000)
-    except KeyboardInterrupt:
-        destroy()
+    app.directory = "./"
+    app.run(host="0.0.0.0", port=5000)
+
