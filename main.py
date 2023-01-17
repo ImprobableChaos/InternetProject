@@ -8,42 +8,15 @@ from datetime import datetime
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 from multiprocessing import Process
+from camera import CameraStream
 
 reader = SimpleMFRC522()
 GPIO.cleanup()
 logged_in = False
 
-
-class VideoCamera(object):
-    def __init__(self, file_type=".jpg", photo_string="stream_photo"):
-        self.vs = PiVideoStream().start()
-        self.file_type = file_type
-        self.photo_string = photo_string
-        time.sleep(2.0)
-
-    def __del__(self):
-        self.vs.stop()
-
-    def frame(self, frame):
-        return frame
-
-    def get_frame(self):
-        frame = self.frame(self.vs.read())
-        ret, jpeg = cv.imencode(self.file_type, frame)
-        self.previous_frame = jpeg
-        return jpeg.tobytes()
-
-    # Take a photo, called by camera button
-    def take_picture(self):
-        frame = self.frame(self.vs.read())
-        ret, image = cv.imencode(self.file_type, frame)
-        today_date = datetime.now().strftime("%m%d%Y-%H%M%S")  # get current time
-        cv.imwrite(str(self.photo_string + "_" + today_date + self.file_type), frame)
-
-
 app = Flask(__name__)
 
-pi_camera = VideoCamera()
+pi_camera = CameraStream().start()
 
 # Servo Motor Setup
 
@@ -90,10 +63,11 @@ def live():
 
 
 def generate(camera):
-    while True:
-        frame = camera.get_frame()
+    while pi_camera:
+        frame = camera.read()
+        convert = cv.imencode(".jpg", frame)[1].tobytes()
         yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+               b'Content-Type: image/jpeg\r\n\r\n' + convert + b'\r\n\r\n')
 
 
 @app.route("/video_feed")
@@ -147,29 +121,27 @@ def login():
     return render_template('login.html', error=error)
 
 
-def webapp():
-    setup_servo()
-    try:
-        app.directory = "./"
-        app.run(host="0.0.0.0", port=5000)
-    except KeyboardInterrupt:
-        destroy_servo()
 
 
 def RFID():
     while True:
         print("RFID Signal")
-        time.sleep(1)
+        time.sleep(2)
 
 
 if __name__ == "__main__":
-    p = Process(target=webapp)
-    q = Process(target=RFID)
+    setup_servo()
+    try:
+        q = Process(target=RFID)
 
-    q.start()
-    q.join(1)
-    p.start()
-    p.join(1)
+        q.start()
+        q.join()
+        app.directory = "./"
+        app.run(host="0.0.0.0", port=5000, threaded=True)
+    except KeyboardInterrupt:
+        destroy_servo()
+
+
 
 
 
