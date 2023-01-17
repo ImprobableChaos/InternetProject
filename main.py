@@ -10,6 +10,7 @@ from mfrc522 import SimpleMFRC522
 
 reader = SimpleMFRC522()
 GPIO.cleanup()
+logged_in = False
 
 
 class VideoCamera(object):
@@ -82,7 +83,7 @@ def destroy_servo():
 
 @app.route("/live")
 def live():
-    if session["logged_in"]:
+    if logged_in:
         return render_template("home.html")
     else:
         error = "You are required to login to access this."
@@ -98,7 +99,7 @@ def generate(camera):
 
 @app.route("/video_feed")
 def video_feed():
-    if session["logged_in"]:
+    if logged_in:
         return Response(generate(pi_camera),
                         mimetype="multipart/x-mixed-replace; boundary=frame")
     else:
@@ -108,7 +109,7 @@ def video_feed():
 
 @app.route("/picture")
 def take_picture():
-    if session["logged_in"]:
+    if logged_in:
         pi_camera.take_picture()
         return "None"
     else:
@@ -118,7 +119,7 @@ def take_picture():
 
 @app.route("/unlock_door")
 def unlock_door():
-    if session["logged_in"]:
+    if logged_in:
         for dc in range(0, 181, 1):  # make servo rotate from 0 to 180 deg
             servoWrite(dc)  # Write dc value to servo
             time.sleep(0.001)
@@ -130,7 +131,7 @@ def unlock_door():
 
 @app.route("/lock_door")
 def lock_door():
-    if session["logged_in"]:
+    if logged_in:
         for dc in range(180, 1, -1):  # make servo rotate from 180 to 0 deg
             servoWrite(dc)
             time.sleep(0.001)
@@ -147,14 +148,14 @@ def login():
         if request.form['username'] != 'admin' or request.form['password'] != 'admin':
             error = 'Invalid Credentials. Please try again.'
         else:
-            session["logged_in"] = True
+            global logged_in
+            logged_in = True
             return redirect(url_for('live'))
     return render_template('login.html', error=error)
 
 
 if __name__ == "__main__":
     setup_servo()
-    session["logged_in"] = False
     try:
         app.directory = "./"
         app.run(host="0.0.0.0", port=5000)
