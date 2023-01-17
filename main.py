@@ -42,8 +42,6 @@ class VideoCamera(object):
 app = Flask(__name__)
 app.secret_key = "secret_key"
 
-session["logged_in"] = False
-
 pi_camera = VideoCamera()
 
 # Servo Motor Setup
@@ -159,6 +157,7 @@ if __name__ == "__main__":
     try:
         app.directory = "./"
         app.run(host="0.0.0.0", port=5000)
+        session["logged_in"] = False
     except KeyboardInterrupt:
         destroy_servo()
 
