@@ -30,10 +30,7 @@
 
     <div>
           <a id=lock-door>
-              <button id="lock-door-button" onclick="function lock_door() {
-
-              }
-              lock_door()" value="Lock Door" class="btn btn-default">Lock Door</button>
+              <button id="lock-door-button" onclick="unlock_door()" value="Unlock Door" class="btn btn-default">Unlock Door</button>
          </a>
     </div>
 
@@ -73,26 +70,26 @@ $(function() {
   });
 });
 
-$(function (){
-    $("a#unlock-door").on("click", function(e)){
-        e.preventDefault()
-        $.getJSON("/unlock_door",
-        function(data){
-            //do nothing
-        });
-        return false
-    }
+$(function() {
+  $('a#unlock-door').on('click', function(e) {
+    e.preventDefault()
+    $.getJSON('/unlock_door',
+        function(data) {
+      //do nothing
+    });
+    return false;
+  });
 });
 
-$(function (){
-    $("a#lock-door").on("click", function(e)){
-        e.preventDefault()
-        $.getJSON("/lock_door",
-        function(data){
-            //do nothing
-        });
-        return false
-    }
+$(function() {
+  $('a#lock-door').on('click', function(e) {
+    e.preventDefault()
+    $.getJSON('/lock_door',
+        function(data) {
+      //do nothing
+    });
+    return false;
+  });
 });
 
 </script>
