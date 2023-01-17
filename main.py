@@ -1,10 +1,6 @@
 from flask import Flask, render_template, Response, request, redirect, url_for, session
-import os
 import cv2 as cv
-from imutils.video.pivideostream import PiVideoStream
-import imutils
 import time
-from datetime import datetime
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 from multiprocessing import Process
@@ -75,15 +71,6 @@ def video_feed():
     print("Video Feed")
     return Response(generate(),
                     mimetype="multipart/x-mixed-replace; boundary=frame")
-
-
-@app.route("/picture")
-def take_picture():
-    if logged_in:
-        pi_camera.take_picture()
-        return "None"
-    else:
-        return redirect(url_for("login"))
 
 
 @app.route("/unlock_door")

@@ -22,12 +22,6 @@
          </a>
     </div>
 
-    <div class="picture">
-          <a href=# id=take-picture class="picture_class">
-              <button id="take-picture-button" onclick="take_picture()" value="Take Picture" class="btn btn-default">Take Picture</button>
-         </a>
-    </div>
-
     <div>
           <a id=lock-door>
               <button id="lock-door-button" onclick="lock_door()" class="btn btn-default">Lock Door</button>
@@ -60,21 +54,6 @@ button.onclick = function() {
 
 </script>
 
-<script type ="text/javascript">
-
-// Take and save a photo, call picture function in main.py
-$(function() {
-  $('a#take-picture').on('click', function(e) {
-    e.preventDefault()
-    $.getJSON('/picture',
-        function(data) {
-      //do nothing
-    });
-    return false;
-  });
-});
-
-</script>
 
 <script type="text/javascript">
 $(function() {
