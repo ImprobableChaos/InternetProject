@@ -1,4 +1,4 @@
-from flask import Flask, render_template, Response, request, redirect, url_for
+from flask import Flask, render_template, Response, request, redirect, url_for, session
 import os
 import cv2 as cv
 from imutils.video.pivideostream import PiVideoStream
@@ -40,6 +40,10 @@ class VideoCamera(object):
 
 
 app = Flask(__name__)
+app.secret_key = "secret_key"
+
+session["logged_in"] = False
+
 pi_camera = VideoCamera()
 
 # Servo Motor Setup
@@ -80,7 +84,11 @@ def destroy_servo():
 
 @app.route("/live")
 def live():
-    return render_template("home.html")
+    if session["logged_in"]:
+        return render_template("home.html")
+    else:
+        error = "You are required to login to access this."
+        return render_template('login.html', error=error)
 
 
 def generate(camera):
@@ -92,30 +100,46 @@ def generate(camera):
 
 @app.route("/video_feed")
 def video_feed():
-    return Response(generate(pi_camera),
-                    mimetype="multipart/x-mixed-replace; boundary=frame")
+    if session["logged_in"]:
+        return Response(generate(pi_camera),
+                        mimetype="multipart/x-mixed-replace; boundary=frame")
+    else:
+        error = "You are required to login to access this."
+        return render_template('login.html', error=error)
 
 
 @app.route("/picture")
 def take_picture():
-    pi_camera.take_picture()
-    return "None"
+    if session["logged_in"]:
+        pi_camera.take_picture()
+        return "None"
+    else:
+        error = "You are required to login to access this."
+        return render_template('login.html', error=error)
 
 
 @app.route("/unlock_door")
 def unlock_door():
-    for dc in range(0, 181, 1):  # make servo rotate from 0 to 180 deg
-        servoWrite(dc)  # Write dc value to servo
-        time.sleep(0.001)
-    return "None"
+    if session["logged_in"]:
+        for dc in range(0, 181, 1):  # make servo rotate from 0 to 180 deg
+            servoWrite(dc)  # Write dc value to servo
+            time.sleep(0.001)
+        return "None"
+    else:
+        error = "You are required to login to access this."
+        return render_template('login.html', error=error)
 
 
 @app.route("/lock_door")
 def lock_door():
-    for dc in range(180, 1, -1):  # make servo rotate from 180 to 0 deg
-        servoWrite(dc)
-        time.sleep(0.001)
-    return "None"
+    if session["logged_in"]:
+        for dc in range(180, 1, -1):  # make servo rotate from 180 to 0 deg
+            servoWrite(dc)
+            time.sleep(0.001)
+        return "None"
+    else:
+        error = "You are required to login to access this."
+        return render_template('login.html', error=error)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -125,6 +149,7 @@ def login():
         if request.form['username'] != 'admin' or request.form['password'] != 'admin':
             error = 'Invalid Credentials. Please try again.'
         else:
+            session["logged_in"] = True
             return redirect(url_for('live'))
     return render_template('login.html', error=error)
 
