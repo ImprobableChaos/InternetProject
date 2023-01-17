@@ -112,7 +112,7 @@ def unlock_door():
 
 @app.route("/lock_door")
 def lock_door():
-    for dc in range(180, 0, -1):  # make servo rotate from 180 to 0 deg
+    for dc in range(180, 1, -1):  # make servo rotate from 180 to 0 deg
         servoWrite(dc)
         time.sleep(0.001)
     return "None"
