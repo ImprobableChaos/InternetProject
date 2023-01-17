@@ -30,13 +30,13 @@
 
     <div>
           <a id=lock-door>
-              <button id="lock-door-button" onclick="unlock_door()" value="Unlock Door" class="btn btn-default">Unlock Door</button>
+              <button id="lock-door-button" onclick="lock_door()" class="btn btn-default">Unlock Door</button>
          </a>
     </div>
 
     <div>
           <a id=unlock-door>
-              <button id="unlock-door-button" onclick="unlock_door()" value="Unlock Door" class="btn btn-default">Unlock Door</button>
+              <button id="unlock-door-button"onclick="unlock_door()" class="btn btn-default">Unlock Door</button>
          </a>
     </div>
 </div>
@@ -58,6 +58,10 @@ button.onclick = function() {
     }
 };
 
+</script>
+
+<script type ="text/javascript">
+
 // Take and save a photo, call picture function in main.py
 $(function() {
   $('a#take-picture').on('click', function(e) {
@@ -70,6 +74,9 @@ $(function() {
   });
 });
 
+</script>
+
+<script type="text/javascript">
 $(function() {
   $('a#unlock-door').on('click', function(e) {
     e.preventDefault()
@@ -80,6 +87,10 @@ $(function() {
     return false;
   });
 });
+
+</script>
+
+<script type="text/javascript">
 
 $(function() {
   $('a#lock-door').on('click', function(e) {
