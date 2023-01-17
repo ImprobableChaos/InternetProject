@@ -62,9 +62,9 @@ def live():
         return redirect(url_for("login"))
 
 
-def generate(camera):
+def generate():
     while pi_camera:
-        frame = camera.read()
+        frame = pi_camera.read()
         convert = cv.imencode(".jpg", frame)[1].tobytes()
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + convert + b'\r\n\r\n')
@@ -121,8 +121,6 @@ def login():
     return render_template('login.html', error=error)
 
 
-
-
 def RFID():
     while True:
         print("RFID Signal")
@@ -137,9 +135,6 @@ if __name__ == "__main__":
         app.directory = "./"
         app.run(host="0.0.0.0", port=5000, threaded=True)
     except KeyboardInterrupt:
+        pi_camera.stop()
         destroy_servo()
-
-
-
-
 
