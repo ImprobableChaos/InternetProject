@@ -158,8 +158,20 @@ def webapp():
         destroy_servo()
 
 
+def RFID():
+    while True:
+        print("RFID Signal")
+        time.sleep(1)
+
+
 if __name__ == "__main__":
-    p = Process(target=webapp())
+    p = Process(target=webapp)
+    q = Process(target=RFID)
+
     p.start()
+    q.start()
+
     p.join()
+    q.join()
+
 
