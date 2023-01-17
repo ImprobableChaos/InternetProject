@@ -154,10 +154,10 @@ def login():
 
 if __name__ == "__main__":
     setup_servo()
+    session["logged_in"] = False
     try:
         app.directory = "./"
         app.run(host="0.0.0.0", port=5000)
-        session["logged_in"] = False
     except KeyboardInterrupt:
         destroy_servo()
 
