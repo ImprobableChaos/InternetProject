@@ -98,6 +98,7 @@ def generate(camera):
 
 @app.route("/video_feed")
 def video_feed():
+    print("Video Feed")
     return Response(generate(pi_camera),
                     mimetype="multipart/x-mixed-replace; boundary=frame")
 
