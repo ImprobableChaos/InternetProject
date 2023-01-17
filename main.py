@@ -168,10 +168,9 @@ if __name__ == "__main__":
     p = Process(target=webapp)
     q = Process(target=RFID)
 
-    p.start()
     q.start()
+    p.start()
 
-    p.join()
     q.join()
-
+    p.join()
 
