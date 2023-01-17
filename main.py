@@ -7,6 +7,7 @@ import time
 from datetime import datetime
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
+from multiprocessing import Process
 
 reader = SimpleMFRC522()
 GPIO.cleanup()
@@ -41,7 +42,6 @@ class VideoCamera(object):
 
 
 app = Flask(__name__)
-app.secret_key = "secret_key"
 
 pi_camera = VideoCamera()
 
@@ -149,11 +149,17 @@ def login():
     return render_template('login.html', error=error)
 
 
-if __name__ == "__main__":
+def webapp():
     setup_servo()
     try:
         app.directory = "./"
         app.run(host="0.0.0.0", port=5000)
     except KeyboardInterrupt:
         destroy_servo()
+
+
+if __name__ == "__main__":
+    p = Process(target=webapp())
+    p.start()
+    p.join()
 
