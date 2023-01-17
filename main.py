@@ -86,8 +86,7 @@ def live():
     if logged_in:
         return render_template("home.html")
     else:
-        error = "You are required to login to access this."
-        return render_template('login.html', error=error)
+        return redirect(url_for("login"))
 
 
 def generate(camera):
@@ -103,8 +102,7 @@ def video_feed():
         return Response(generate(pi_camera),
                         mimetype="multipart/x-mixed-replace; boundary=frame")
     else:
-        error = "You are required to login to access this."
-        return render_template('login.html', error=error)
+        return redirect(url_for("login"))
 
 
 @app.route("/picture")
@@ -113,8 +111,7 @@ def take_picture():
         pi_camera.take_picture()
         return "None"
     else:
-        error = "You are required to login to access this."
-        return render_template('login.html', error=error)
+        return redirect(url_for("login"))
 
 
 @app.route("/unlock_door")
@@ -125,8 +122,7 @@ def unlock_door():
             time.sleep(0.001)
         return "None"
     else:
-        error = "You are required to login to access this."
-        return render_template('login.html', error=error)
+        return redirect(url_for("login"))
 
 
 @app.route("/lock_door")
@@ -137,8 +133,7 @@ def lock_door():
             time.sleep(0.001)
         return "None"
     else:
-        error = "You are required to login to access this."
-        return render_template('login.html', error=error)
+        return redirect(url_for("login"))
 
 
 @app.route('/', methods=['GET', 'POST'])
