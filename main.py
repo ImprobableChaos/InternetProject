@@ -2,11 +2,11 @@ from flask import Flask, render_template, Response, request, redirect, url_for, 
 import cv2 as cv
 import time
 import RPi.GPIO as GPIO
-from mfrc522 import SimpleMFRC522
 from multiprocessing import Process
 from camera import CameraStream
+import RPi.GPIO as GPIO
+from MRFC522 import SimpleMFRC522
 
-reader = SimpleMFRC522()
 GPIO.cleanup()
 logged_in = False
 
@@ -108,10 +108,28 @@ def login():
     return render_template('login.html', error=error)
 
 
+def interpret_card(self, reader):
+    id, text = reader.read()
+    print(id, text)
+    if text == "keycard":
+        return "unlock"
+    elif text == "keychain":
+        return "lock"
+    else:
+        pass
+
+
 def RFID():
+    reader = SimpleMFRC522()
     while True:
-        print("RFID Signal")
-        time.sleep(2)
+        output = interpret_card(reader)
+        if output is not None:
+            if output == "keycard":
+                unlock_door()
+            elif output == "keychain":
+                lock_door()
+            else:
+                pass
 
 
 if __name__ == "__main__":
