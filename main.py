@@ -108,7 +108,7 @@ def login():
     return render_template('login.html', error=error)
 
 
-def interpret_card(self, reader):
+def interpret_card(reader):
     id, text = reader.read()
     print(id, text)
     if text == "keycard":
