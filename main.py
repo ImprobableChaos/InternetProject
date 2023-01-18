@@ -110,6 +110,7 @@ def login():
 
 def interpret_card(reader):
     id, text = reader.read()
+    print(type(text))
     text = str(text)
     print(f"{id},{text}")
     if text == "Card":
