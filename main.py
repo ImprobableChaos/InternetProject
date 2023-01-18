@@ -112,8 +112,10 @@ def interpret_card(reader):
     id, text = reader.read()
     print(id, text)
     if text == "Card":
+        print("returning unlock")
         return "unlock"
     elif text == "Keychain":
+        print("returning lock")
         return "lock"
     else:
         pass
@@ -125,8 +127,10 @@ def RFID():
         output = interpret_card(reader)
         if output is not None:
             if output == "unlock":
+                print("unlock")
                 unlock_door()
             elif output == "lock":
+                print("lock")
                 lock_door()
             else:
                 pass
