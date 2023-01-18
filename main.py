@@ -5,7 +5,7 @@ import RPi.GPIO as GPIO
 from multiprocessing import Process
 from camera import CameraStream
 import RPi.GPIO as GPIO
-from MRFC522 import SimpleMFRC522
+from MFRC522 import SimpleMFRC522
 
 GPIO.cleanup()
 logged_in = False
