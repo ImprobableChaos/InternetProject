@@ -37,6 +37,7 @@ def setup_servo():
 
 
 def servoWrite(angle):
+    print("calling servo")
     if angle < 0:
         angle = 0
     elif angle > 180:
@@ -110,14 +111,10 @@ def login():
 
 def interpret_card(reader):
     id, text = reader.read()
-    print(type(text))
     text = text.strip()
-    print(f"{id},{text}")
     if text == "Card":
-        print("returning unlock")
         return "unlock"
     elif text == "Keychain":
-        print("returning lock")
         return "lock"
     else:
         print("No read")
