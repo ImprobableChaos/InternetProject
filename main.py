@@ -119,7 +119,8 @@ def interpret_card(reader):
         print("returning lock")
         return "lock"
     else:
-        pass
+        print("No read")
+        return None
 
 
 def RFID():
@@ -133,8 +134,6 @@ def RFID():
             elif output == "lock":
                 print("lock")
                 lock_door()
-            else:
-                pass
 
 
 if __name__ == "__main__":
