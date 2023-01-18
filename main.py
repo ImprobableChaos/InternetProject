@@ -111,7 +111,7 @@ def login():
 def interpret_card(reader):
     id, text = reader.read()
     print(type(text))
-    text = str(text)
+    text = text.strip()
     print(f"{id},{text}")
     if text == "Card":
         print("returning unlock")
