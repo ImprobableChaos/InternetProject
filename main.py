@@ -37,7 +37,6 @@ def setup_servo():
 
 
 def servoWrite(angle):
-    print("calling servo")
     if angle < 0:
         angle = 0
     elif angle > 180:
