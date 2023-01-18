@@ -131,10 +131,14 @@ def RFID():
         if output is not None:
             if output == "unlock":
                 print("unlock")
-                unlock_door()
+                for dc in range(0, 181, 1):  # make servo rotate from 0 to 180 deg
+                    servoWrite(dc)  # Write dc value to servo
+                    time.sleep(0.001)
             elif output == "lock":
                 print("lock")
-                lock_door()
+                for dc in range(180, 1, -1):  # make servo rotate from 180 to 0 deg
+                    servoWrite(dc)
+                    time.sleep(0.001)
 
 
 if __name__ == "__main__":
