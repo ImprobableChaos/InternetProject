@@ -8,7 +8,7 @@ import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 
 GPIO.cleanup()
-logged_in = False
+logged_in = True
 
 app = Flask(__name__)
 
